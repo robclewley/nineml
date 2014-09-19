@@ -55,9 +55,9 @@ class Expression(BaseALObject):
             rhs = rhs.strip()
             self._rhs_names, self._rhs_funcs = self._parse_rhs(rhs)
             for name in self._rhs_names:
-                assert not name in self._rhs_funcs
+                assert name not in self._rhs_funcs
             for func in self._rhs_funcs:
-                assert not func in self._rhs_names
+                assert func not in self._rhs_names
         elif isinstance(rhs, pq.Quantity):
             self._rhs_names = []
             self._rhs_funcs = []

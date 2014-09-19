@@ -197,11 +197,10 @@ class XMLLoader(object):
             if len(elements) != 1:
                 print elements
                 assert False, 'Unexpected tags found'
-
         assert (len(element.findall(MATHML + "MathML")) +
                 len(element.findall(NINEML + "MathInline")) +
-                len(element.findall(NINEML + "Value"))) == 1
-
+                len(element.findall(NINEML + "Value"))) +
+                len(element.findall(NINEML + "Piecewise"))) == 1                
         if element.findall(NINEML + "MathInline"):
             mblock = expect_single(element.findall(NINEML +
                                                    'MathInline')).text.strip()
@@ -211,10 +210,25 @@ class XMLLoader(object):
         elif element.findall(NINEML + "Value"):
             mblock = self.load_value(expect_single(element.findall(NINEML +
                                                                    "Value")))
+        elif element.findall(NINEML + "Piecewise"):
+            mblock = self.load_piecewise(expect_single(element.findall(NINEML +
+                                                                 "Piecewise")))
         return mblock
 
     def load_mathml(self, mathml):
         raise NotImplementedError
+
+    def load_piecewise(self, piecewise):
+        pieces = []
+        for elem in piecewise.findall(NINEML + "Piece"):
+            pieces.append([e.text.strip() for e in elem.findall(NINEML +
+                                                                "MathInline")])
+        otherwise = piecewise.findall(NINEML + "Otherwise")
+        assert len(otherwise) < 2
+        if len(otherwise):
+            elem = expect_single(otherwise[0].findall(NINEML + "MathInline"))
+            pieces.append([elem.text.strip(), 'otherwise'])
+        return pieces
 
     def load_value(self, value):
         return pq.Quantity(float(value.text),
