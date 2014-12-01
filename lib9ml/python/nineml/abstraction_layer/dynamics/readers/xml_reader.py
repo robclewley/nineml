@@ -199,8 +199,8 @@ class XMLLoader(object):
                 assert False, 'Unexpected tags found'
         assert (len(element.findall(MATHML + "MathML")) +
                 len(element.findall(NINEML + "MathInline")) +
-                len(element.findall(NINEML + "Value"))) +
-                len(element.findall(NINEML + "Piecewise"))) == 1                
+                len(element.findall(NINEML + "Value")) +
+                len(element.findall(NINEML + "Piecewise"))) == 1
         if element.findall(NINEML + "MathInline"):
             mblock = expect_single(element.findall(NINEML +
                                                    'MathInline')).text.strip()
