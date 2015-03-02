@@ -4,3 +4,4 @@
 *.lock
 /spec
 _site
+.sass-cache
