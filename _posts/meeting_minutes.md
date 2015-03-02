@@ -1,3 +1,8 @@
+---
+layout: post
+title: "Meeting minutes"
+---
+
 NineML working group meeting: Antwerp, 13 – 15 October 2015
 
 
